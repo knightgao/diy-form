@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DynamicForm from './components/DynamicForm.vue'
+import DynamicForm from './components/dynamic-form.vue'
 </script>
 
 <template>
