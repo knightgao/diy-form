@@ -1,28 +1,32 @@
 <script setup lang="ts">
-import { computed, watch } from "vue";
+import { ref } from "vue";
 import { useDynamicForm } from "./useCurrentComponent";
 import { v4 as uuidv4 } from 'uuid';
 import BaseForm from "./base-form.vue";
 
 
-const { handleAdd, config, getValue, curryValue } = useDynamicForm()
-
-// 定义抛出的值
-const emit = defineEmits<{
-    arrayValue: [rest: string[]]
-    value: []
-}>()
+const { handleAdd, config, curryValue } = useDynamicForm()
 
 
 
-// 处理数组格式的返回
-const arrayValue = computed(
-    () => getValue()
-)
+config.value = [
+    {
+        key: 'name',
+        type: 'text'
+    },
+    {
+        key: 'age',
+        type: 'text'
+    },
+    {
+        key: 'area',
+        type: 'text'
+    }
+]
 
-watch([curryValue, config], () => {
-    emit("arrayValue", arrayValue.value);
-})
+const formData = ref([2, 16, 'shanghai'])
+
+
 
 
 
@@ -30,7 +34,7 @@ watch([curryValue, config], () => {
 <template>
     <div class="DynamicForm">
 
-        <BaseForm :curry-value="curryValue" :config="config"></BaseForm>
+        <BaseForm :curry-value="curryValue" :config="config" v-model:formData="formData"></BaseForm>
 
         <div>
             <button @click="handleAdd({
@@ -60,16 +64,10 @@ watch([curryValue, config], () => {
         </div>
 
         <div>
-            {{ curryValue }}
+            {{ formData }}
         </div>
 
-        <div>
-            {{ getValue() }}
-        </div>
 
 
     </div>
 </template>
-<style lang="scss" scoped>
-.DynamicForm {}
-</style>

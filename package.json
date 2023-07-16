@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/uuid": "^9.0.2",
     "ant-design-vue": "4.0.0-rc.6",
     "sass": "^1.63.6",
     "uuid": "^9.0.0",

@@ -1,6 +1,6 @@
 import { Input, Select, InputNumber } from "ant-design-vue";
-import { ref } from "vue";
-import { v4 as uuidv4 } from 'uuid';
+import {ref, unref} from "vue";
+import { v4 as uuid } from 'uuid';
 import type { SelectProps } from 'ant-design-vue';
 
 interface BaseItem {
@@ -27,32 +27,29 @@ const currentComponent = (type: string) => {
     }
 };
 
+// 数组形式返回结果
+const getValue = (config:Array<BaseItem>,curryValue:Record<string, any>): Array<string> => {
+    return unref(config).map((i) => {
+        return unref(curryValue)[i.key] ?? ''
+    })
+}
+
 
 const useDynamicForm = () => {
-
 
     // 表单的配置
     const config = ref<Array<BaseItem>>([])
 
-
     // 当前的数值
     const curryValue = ref<Record<string, any>>({})
 
-
-    // 数组形式返回结果
-    const getValue = (): Array<string> => {
-        return config.value.map((i) => {
-            return curryValue.value[i.key] ?? ''
-        })
-    }
-
     // 按钮
-    const handleAdd = (param: BaseItem | Function = { key: uuidv4(), type: "text" }, index: number = -1) => {
+    const handleAdd = (param: BaseItem | Function = { key: uuid(), type: "text" }, index: number = -1) => {
         const newParam = typeof param === 'function' ? Object.assign({
-            key: uuidv4(),
+            key: uuid(),
             type: "text"
         }, param()) : Object.assign({
-            key: uuidv4(),
+            key: uuid(),
             type: "text"
         }, { ...param })
 
@@ -62,8 +59,8 @@ const useDynamicForm = () => {
             config.value.push({ ...newParam })
         }
     }
-    return { currentComponent, handleAdd, config, getValue, curryValue }
+    return { currentComponent, handleAdd, config, curryValue }
 }
 
-export { useDynamicForm, currentComponent, typeMap }
+export { useDynamicForm, currentComponent,getValue, typeMap }
 export type { BaseItem }

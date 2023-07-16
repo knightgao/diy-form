@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@types/uuid':
+    specifier: ^9.0.2
+    version: 9.0.2
   ant-design-vue:
     specifier: 4.0.0-rc.6
     version: 4.0.0-rc.6(vue@3.3.4)
@@ -303,6 +306,10 @@ packages:
     dependencies:
       core-js: 3.31.1
       nanopop: 2.3.0
+    dev: false
+
+  /@types/uuid@9.0.2:
+    resolution: {integrity: sha512-kNnC1GFBLuhImSnV7w4njQkUiJi0ZXUycu1rUaouPqiKlXkh77JKgdRnTAp1x5eBwcIwbtI+3otwzuIDEuDoxQ==}
     dev: false
 
   /@vitejs/plugin-vue@4.2.3(vite@4.4.0)(vue@3.3.4):

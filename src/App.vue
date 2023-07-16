@@ -5,7 +5,7 @@ import DynamicForm from './components/dynamic-form.vue'
 <template>
   <div style="display: grid;margin: 100px;">
     <div style="width:300px;place-self: center;">
-      <DynamicForm></DynamicForm>
+      <DynamicForm ></DynamicForm>
     </div>
   </div>
 </template>
