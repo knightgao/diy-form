@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { h, ref } from "vue";
 import { useDynamicForm } from "./useCurrentComponent";
 import { v4 as uuidv4 } from 'uuid';
 import BaseForm from "./base-form.vue";
+import { TimePicker } from "ant-design-vue";
 
 
 const { handleAdd, config, curryValue } = useDynamicForm()
@@ -28,6 +29,22 @@ const formData = ref([2, 16, 'shanghai'])
 
 
 
+// 自定义组件
+const handleAddSlot = () => {
+    handleAdd({
+        type: 'slot',
+        key: uuidv4(),
+        render: (props, { emit }) => {
+            return h(TimePicker, {
+                value: props.value,
+                'onUpdate:value': (value: any) => {
+                    console.log("改变值", value)
+                    emit('update:value', value)
+                },
+            })
+        }
+    })
+}
 
 
 </script>
@@ -37,6 +54,9 @@ const formData = ref([2, 16, 'shanghai'])
         <BaseForm :curry-value="curryValue" :config="config" v-model:formData="formData"></BaseForm>
 
         <div>
+
+            <button @click="handleAddSlot">新增个自定义组件</button>
+
             <button @click="handleAdd({
                 type: 'text',
                 key: uuidv4()

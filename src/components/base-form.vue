@@ -3,6 +3,7 @@ import { currentComponent, getValue, typeMap } from "./useCurrentComponent";
 import { FormItem, Form } from "ant-design-vue";
 import type { BaseItem } from "./useCurrentComponent";
 import { onMounted, unref, watch } from "vue";
+import CustomComponent from "./custom-component.vue"
 
 
 const { config = [], curryValue = {}, formData = [] } = defineProps({
@@ -10,7 +11,7 @@ const { config = [], curryValue = {}, formData = [] } = defineProps({
     type: Array<BaseItem>,
     required: true,
     validator(value: Array<BaseItem>) {
-      return value.every((item: BaseItem) => Object.keys(typeMap).includes(item.type))
+      return value.every((item: BaseItem) => [...Object.keys(typeMap), "slot"].includes(item.type))
     }
   },
   curryValue: {
@@ -70,7 +71,7 @@ const handleDel = (_item: BaseItem, index: number) => {
             :options="item.selectOptions"></component>
         </template>
         <template v-if="item.type === 'slot'">
-          Todo:这里是渲染函数
+          <CustomComponent :key="item.key" :render="item.render" v-model:value="curryValue[item.key]"></CustomComponent>
         </template>
         <div @click="handleDel(item, index)" style="cursor: pointer;">删除</div>
       </FormItem>

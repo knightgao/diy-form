@@ -1,5 +1,5 @@
 import { Input, Select, InputNumber } from "ant-design-vue";
-import {ref, unref} from "vue";
+import { SetupContext, ref, unref } from "vue";
 import { v4 as uuid } from 'uuid';
 import type { SelectProps } from 'ant-design-vue';
 
@@ -9,7 +9,7 @@ interface BaseItem {
     label?: string // 组件标签名
     description?: string // 组件的描述内容
     defaultValue?: any // 组件的默认值
-    render?: Function // 自定义组件的渲染函数
+    render?: (props: any, { slots, emit, attrs }: SetupContext) => {} // 自定义组件的渲染函数
     selectOptions?: SelectProps['options'] // 自定义组件的渲染函数
 }
 
@@ -28,7 +28,7 @@ const currentComponent = (type: string) => {
 };
 
 // 数组形式返回结果
-const getValue = (config:Array<BaseItem>,curryValue:Record<string, any>): Array<string> => {
+const getValue = (config: Array<BaseItem>, curryValue: Record<string, any>): Array<string> => {
     return unref(config).map((i) => {
         return unref(curryValue)[i.key] ?? ''
     })
@@ -62,5 +62,5 @@ const useDynamicForm = () => {
     return { currentComponent, handleAdd, config, curryValue }
 }
 
-export { useDynamicForm, currentComponent,getValue, typeMap }
+export { useDynamicForm, currentComponent, getValue, typeMap }
 export type { BaseItem }
